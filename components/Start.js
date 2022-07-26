@@ -9,13 +9,13 @@ export default class Start extends React.Component {
     this.state = { name: '' };
   }
 
-/* bgColor() holds the state for the background color selected by user later transferred to <Chat/> component*/
-  bgColor = (color) => {
-    this.setState({ bgColor: color});
-  };
+/* changeBgColor holds the state for the background color selected by user later transferred to <Chat/> component*/
+changeBgColor = (newColor) => {
+  this.setState({ bgColor: newColor });
+};
 
 /* color options for user */
-  color = {
+  colors = {
     black: "#090C08",
     purple: "#474056",
     gray: "#8A95A5",
@@ -37,33 +37,35 @@ export default class Start extends React.Component {
                     placeholder='Your Name...'
                   />
                 </View>
-            <Text style={styles.colorInput}>Choose your background color:</Text>
+            <Text style={styles.colorInput}>Choose your background color!</Text>
                 <View style={styles.colorArray}>
                     <TouchableOpacity
                       style={styles.colorBlack}
-                      onPress={() => this.bgColor(this.color)}
+                      onPress={() => this.changeBgColor(this.colors.black)}
                     ></TouchableOpacity>
 
                     <TouchableOpacity
                       style={styles.colorPurple}
-                      onPress={() => this.bgColor(this.color)}
+                      onPress={() => this.changeBgColor(this.colors.purple)}
                     ></TouchableOpacity>
 
                     <TouchableOpacity
                       style={styles.colorGray}
-                      onPress={() => this.bgColor(this.color)}
+                      onPress={() => this.changeBgColor(this.colors.gray)}
                     ></TouchableOpacity>
 
                     <TouchableOpacity
                       style={styles.colorGreen}
-                      onPress={() => this.bgColor(this.color)}
+                      onPress={() => this.changeBgColor(this.colors.green)}
                     ></TouchableOpacity>
                   </View>
                 <Button
                 style={styles.chatButton}
                 title="Start Chatting"
-                onPress={() => this.props.navigation.navigate('Chat', 
-                {name: this.state.name})}
+                onPress={() => this.props.navigation.navigate('Chat', {
+                name: this.state.name, 
+                bgColor: this.state.bgColor}
+                )}
                 />
           </View>
         </ImageBackground>
