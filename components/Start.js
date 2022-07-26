@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, TextInput, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, Pressable, TextInput, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import BackgroundImage from "../Images/Background_Image.png";
 
 /* The application’s main <Start/> component that renders the start screen */
@@ -59,7 +59,7 @@ changeBgColor = (newColor) => {
                       onPress={() => this.changeBgColor(this.colors.green)}
                     ></TouchableOpacity>
                   </View>
-                <Button
+                <Pressable
                 style={styles.chatButton}
                 title="Start Chatting"
                 onPress={() => this.props.navigation.navigate('Chat', {

@@ -6,13 +6,18 @@ export default class Chat extends React.Component {
   /* Transfers user's name from <Start/> component */
 constructor(props) {
   super(props);
-  this.state = { name: '' };
+  this.state = { name: '', bgColor: "" };
 }
 
 render() {
-    /* function allows user's name to be displayed in the navigation bar */
-    let { name } = this.props.route.params;
-    this.props.navigation.setOptions({ title: name });
+/* function takes props from <Start/> and displays the user's name in navigation bar */
+let { name } = this.props.route.params;
+this.props.navigation.setOptions({ title: name });
+
+
+/* function takes props from <Start/> and displays the user's chosen color in chat view */
+let { bgColor } = this.props.route.params;
+this.props.navigation.setOptions({ backgroundColor: bgColor });
 
 return (
  /* Chat screen rendered for user */
@@ -29,5 +34,6 @@ return (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: bgColor,
   },
 });
