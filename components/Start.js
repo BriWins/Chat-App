@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Pressable, TextInput, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, Button, TextInput, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import BackgroundImage from "../Images/Background_Image.png";
 
 /* The application’s main <Start/> component that renders the start screen */
@@ -40,26 +40,42 @@ changeBgColor = (newColor) => {
             <Text style={styles.colorInput}>Choose your background color!</Text>
                 <View style={styles.colorArray}>
                     <TouchableOpacity
-                      style={styles.colorBlack}
-                      onPress={() => this.changeBgColor(this.colors.black)}
+                    accessible={true}
+                    accessibilityLabel=" First background color option"
+                    accessibilityHint="Lets you select the color black for your chat screen background."
+                    accessibilityRole="button"
+                    style={styles.colorBlack}
+                    onPress={() => this.changeBgColor(this.colors.black)}
                     ></TouchableOpacity>
 
                     <TouchableOpacity
-                      style={styles.colorPurple}
-                      onPress={() => this.changeBgColor(this.colors.purple)}
+                    accessible={true}
+                    accessibilityLabel="Second background color option"
+                    accessibilityHint="Lets you select the color purple for your chat screen background."
+                    accessibilityRole="button"
+                    style={styles.colorPurple}
+                    onPress={() => this.changeBgColor(this.colors.purple)}
                     ></TouchableOpacity>
 
                     <TouchableOpacity
-                      style={styles.colorGray}
-                      onPress={() => this.changeBgColor(this.colors.gray)}
+                    accessible={true}
+                    accessibilityLabel="Third background color option"
+                    accessibilityHint="Lets you select the color gray for your chat screen background."
+                    accessibilityRole="button"
+                    style={styles.colorGray}
+                    onPress={() => this.changeBgColor(this.colors.gray)}
                     ></TouchableOpacity>
 
                     <TouchableOpacity
-                      style={styles.colorGreen}
-                      onPress={() => this.changeBgColor(this.colors.green)}
+                    accessible={true}
+                    accessibilityLabel="Fourth background color option"
+                    accessibilityHint="Lets you select the color green for your chat screen background."
+                    accessibilityRole="button"
+                    style={styles.colorGreen}
+                    onPress={() => this.changeBgColor(this.colors.green)}
                     ></TouchableOpacity>
                   </View>
-                <Pressable
+                <Button
                 style={styles.chatButton}
                 title="Start Chatting"
                 onPress={() => this.props.navigation.navigate('Chat', {
@@ -99,7 +115,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'white',
     alignItems: 'center',
-    height: '44%',
+    height: '32%',
     justifyContent: 'space-evenly',
   },
   title: {
