@@ -5,30 +5,9 @@ import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 
-/* Firebase configuration */
-const firebaseConfig = {
-  apiKey: "AIzaSyCGfprEOsn-4YrGEdV-EHWM7F8foTqnYXI",
-  authDomain: "chat-app-277b7.firebaseapp.com",
-  projectId: "chat-app-277b7",
-  storageBucket: "chat-app-277b7.appspot.com",
-  messagingSenderId: "625602329790",
-  appId: "1:625602329790:web:09e31c7a9bbbb0c704f2ef",
-  measurementId: "G-BRQDEZNRMP"
-};
-
 /* Initialize Firebase */
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-
-/* The application’s main <Chat/> component that renders the chat interface */
-export default class Chat extends React.Component {
-/* Transfers user's name from <Start/> component */
-constructor(props) {
-  super(props);
-  this.state = { 
-    name: '',
-    messages: [] 
-};
 
 /* Google Firebase credentials */
 const firebaseConfig = {
@@ -41,37 +20,53 @@ const firebaseConfig = {
   measurementId: "G-BRQDEZNRMP"
 };
 
-/* Initializes Google Firestone */
-if (!firebase.apps.length){
-  firebase.initializeApp(firebaseConfig);
-  }
+/* The application’s main <Chat/> component that renders the chat interface */
+export default class Chat extends React.Component {
+/* Transfers user's name from <Start/> component */
+constructor(props) {
+  super(props);
+  this.state = { 
+    name: '',
+    messages: [] 
+};
 
 /* Stores and retrieves user chat messages */  
 this.referenceChatMessages = firebase.firestore().collection("messages");
 }
 
-/* starting the message state with a static message*/
+onCollectionUpdate = (querySnapshot) => {
+const messages = [];
+/* go through each document */
+querySnapshot.forEach((doc) => {
+  /* get the QueryDocumentSnapshot's data */
+  let data = doc.data();
+  messages.push({
+    _id: data._id,
+    text: data.text,
+    createdAt: data.createdAt.toDate(),
+    user: data.user,
+  });
+});
+}
+
+/* starting the message state with a static message */
 componentDidMount() {
   this.setState({
-    messages: [
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
-        },
-       },
-       {
-        _id: 2,
-        text: 'This is a system message',
-        createdAt: new Date(),
-        system: true,
-       },
-      ]
+    messages: [],
+    uid: 0,
   })
+
+this.authUnsubscribe = firebase.auth().onAuthStateChanged(async (user) => {
+  if (!user) {
+    await firebase.auth().signInAnonymously();
+  }
+  
+  //update user state with currently active user data
+  this.setState({
+    uid: user.uid,
+    loggedInText: 'Hello there',
+  });
+});
 
 /* Loading messages via Firebase */
 this.referenceChatMessages = firebase.firestore().collection("messages");
@@ -82,6 +77,13 @@ onSend(messages = []) {
   this.setState(previousState => ({
     messages: GiftedChat.append(previousState.messages, messages),
   }))
+}
+
+componentWillUnmount() {
+  if (this.isConnected) {
+    this.unsubscribe();
+    this.authUnsubscribe();
+  }
 }
 
 /* colors chat render bubbles black */
