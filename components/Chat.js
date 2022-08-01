@@ -1,10 +1,34 @@
 import React from 'react';
 import { View,  Platform, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { GiftedChat, Bubble } from 'react-native-gifted-chat';
+/* Import the functions you need from the SDKs you need */
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 
-/* importing Google Firebase */
-const firebase = require('firebase');
-require('firebase/firestore');
+/* Firebase configuration */
+const firebaseConfig = {
+  apiKey: "AIzaSyCGfprEOsn-4YrGEdV-EHWM7F8foTqnYXI",
+  authDomain: "chat-app-277b7.firebaseapp.com",
+  projectId: "chat-app-277b7",
+  storageBucket: "chat-app-277b7.appspot.com",
+  messagingSenderId: "625602329790",
+  appId: "1:625602329790:web:09e31c7a9bbbb0c704f2ef",
+  measurementId: "G-BRQDEZNRMP"
+};
+
+/* Initialize Firebase */
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+/* The application’s main <Chat/> component that renders the chat interface */
+export default class Chat extends React.Component {
+/* Transfers user's name from <Start/> component */
+constructor(props) {
+  super(props);
+  this.state = { 
+    name: '',
+    messages: [] 
+};
 
 /* Google Firebase credentials */
 const firebaseConfig = {
@@ -16,16 +40,6 @@ const firebaseConfig = {
   appId: "1:625602329790:web:09e31c7a9bbbb0c704f2ef",
   measurementId: "G-BRQDEZNRMP"
 };
-
-/* The application’s main <Chat/> component that renders the chat interface */
-export default class Chat extends React.Component {
-/* Transfers user's name from <Start/> component */
-constructor(props) {
-  super(props);
-  this.state = { 
-    name: '',
-    messages: [] 
-  };
 
 /* Initializes Google Firestone */
 if (!firebase.apps.length){
