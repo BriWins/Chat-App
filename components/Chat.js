@@ -1,6 +1,21 @@
 import React from 'react';
 import { View,  Platform, StyleSheet, KeyboardAvoidingView } from 'react-native';
-import { GiftedChat, Bubble } from 'react-native-gifted-chat'
+import { GiftedChat, Bubble } from 'react-native-gifted-chat';
+
+/* importing Google Firebase */
+const firebase = require('firebase');
+require('firebase/firestore');
+
+/* Google Firebase credentials */
+const firebaseConfig = {
+  apiKey: "AIzaSyCGfprEOsn-4YrGEdV-EHWM7F8foTqnYXI",
+  authDomain: "chat-app-277b7.firebaseapp.com",
+  projectId: "chat-app-277b7",
+  storageBucket: "chat-app-277b7.appspot.com",
+  messagingSenderId: "625602329790",
+  appId: "1:625602329790:web:09e31c7a9bbbb0c704f2ef",
+  measurementId: "G-BRQDEZNRMP"
+};
 
 /* The application’s main <Chat/> component that renders the chat interface */
 export default class Chat extends React.Component {
@@ -11,6 +26,14 @@ constructor(props) {
     name: '',
     messages: [] 
   };
+
+/* Initializes Google Firestone */
+if (!firebase.apps.length){
+  firebase.initializeApp(firebaseConfig);
+  }
+
+/* Stores and retrieves user chat messages */  
+this.referenceChatMessages = firebase.firestore().collection("messages");
 }
 
 /* starting the message state with a static message*/
@@ -35,6 +58,9 @@ componentDidMount() {
        },
       ]
   })
+
+/* Loading messages via Firebase */
+this.referenceChatMessages = firebase.firestore().collection("messages");
 }
 
 /* onSend() updates the message and creates a new message state */
