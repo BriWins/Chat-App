@@ -2,28 +2,32 @@ import React from 'react';
 import { View, Text, Button, TextInput, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import BackgroundImage from "../Images/Background_Image.png";
 
-/* The application’s main <Start/> component that renders the start screen */
+// The application’s main <Start/> component that renders the start screen 
 export default class Start extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { name: '' };
+    this.state = { 
+      name: '', 
+      backgroundColor: "" 
+  };
   }
 
-/* changeBgColor holds the state for the background color selected by user later transferred to <Chat/> component*/
+// changeBgColor holds the state for the background color selected by user later transferred to <Chat/> component
 changeBgColor = (newColor) => {
-  this.setState({ bgColor: newColor });
+  this.setState({ backgroundColor: newColor });
 };
 
-/* color options for user */
-  colors = {
-    black: "#090C08",
-    purple: "#474056",
-    gray: "#8A95A5",
-    green: "#B9C6AE"
-  }
+// color options for user 
+colors = {
+  black: "#090C08",
+  purple: "#474056",
+  gray: "#8A95A5",
+  green: "#B9C6AE",
+}
+ 
 
   render() {
-    /* Start screen name input box, background color options, and start chat button rendered for user */
+    // Start screen name input box, background color options, and start chat button rendered for user 
     return (
       <View style={styles.container}>
           <ImageBackground source={BackgroundImage} resizeMode="cover" style={styles.image}>
@@ -37,6 +41,7 @@ changeBgColor = (newColor) => {
                     placeholder='Your Name...'
                   />
                 </View>
+
             <Text style={styles.colorInput}>Choose your background color!</Text>
                 <View style={styles.colorArray}>
                     <TouchableOpacity
@@ -45,7 +50,7 @@ changeBgColor = (newColor) => {
                     accessibilityHint="Lets you select the color black for your chat screen background."
                     accessibilityRole="button"
                     style={styles.colorBlack}
-                    onPress={() => this.changeBgColor(this.colors.black)}
+                    onPress={() => this.changeBgColor(colors.black)}
                     ></TouchableOpacity>
 
                     <TouchableOpacity
@@ -54,7 +59,7 @@ changeBgColor = (newColor) => {
                     accessibilityHint="Lets you select the color purple for your chat screen background."
                     accessibilityRole="button"
                     style={styles.colorPurple}
-                    onPress={() => this.changeBgColor(this.colors.purple)}
+                    onPress={() => this.changeBgColor(colors.purple)}
                     ></TouchableOpacity>
 
                     <TouchableOpacity
@@ -63,7 +68,7 @@ changeBgColor = (newColor) => {
                     accessibilityHint="Lets you select the color gray for your chat screen background."
                     accessibilityRole="button"
                     style={styles.colorGray}
-                    onPress={() => this.changeBgColor(this.colors.gray)}
+                    onPress={() => this.changeBgColor(colors.gray)}
                     ></TouchableOpacity>
 
                     <TouchableOpacity
@@ -72,7 +77,7 @@ changeBgColor = (newColor) => {
                     accessibilityHint="Lets you select the color green for your chat screen background."
                     accessibilityRole="button"
                     style={styles.colorGreen}
-                    onPress={() => this.changeBgColor(this.colors.green)}
+                    onPress={() => this.changeBgColor(colors.green)}
                     ></TouchableOpacity>
                   </View>
                 <Button
@@ -80,7 +85,7 @@ changeBgColor = (newColor) => {
                 title="Start Chatting"
                 onPress={() => this.props.navigation.navigate('Chat', {
                 name: this.state.name, 
-                bgColor: this.state.bgColor}
+                backgroundColor: this.state.newColor}
                 )}
                 />
           </View>
@@ -90,7 +95,7 @@ changeBgColor = (newColor) => {
   }
 }
 
-/* Dedicated style props for each styling component */
+// Dedicated style props for each styling component
 const styles = StyleSheet.create({
   container: {
     flex: 1,
