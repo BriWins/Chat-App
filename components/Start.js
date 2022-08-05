@@ -8,7 +8,7 @@ export default class Start extends React.Component {
     super(props);
     this.state = { 
       name: '', 
-      backgroundColor: "" 
+      backgroundColor: '', 
   };
   }
 
@@ -50,7 +50,7 @@ colors = {
                     accessibilityHint="Lets you select the color black for your chat screen background."
                     accessibilityRole="button"
                     style={styles.colorBlack}
-                    onPress={() => this.changeBgColor(colors.black)}
+                    onPress={() => this.changeBgColor(this.colors.black)}
                     ></TouchableOpacity>
 
                     <TouchableOpacity
@@ -59,7 +59,7 @@ colors = {
                     accessibilityHint="Lets you select the color purple for your chat screen background."
                     accessibilityRole="button"
                     style={styles.colorPurple}
-                    onPress={() => this.changeBgColor(colors.purple)}
+                    onPress={() => this.changeBgColor(this.colors.purple)}
                     ></TouchableOpacity>
 
                     <TouchableOpacity
@@ -68,7 +68,7 @@ colors = {
                     accessibilityHint="Lets you select the color gray for your chat screen background."
                     accessibilityRole="button"
                     style={styles.colorGray}
-                    onPress={() => this.changeBgColor(colors.gray)}
+                    onPress={() => this.changeBgColor(this.colors.gray)}
                     ></TouchableOpacity>
 
                     <TouchableOpacity
@@ -77,7 +77,7 @@ colors = {
                     accessibilityHint="Lets you select the color green for your chat screen background."
                     accessibilityRole="button"
                     style={styles.colorGreen}
-                    onPress={() => this.changeBgColor(colors.green)}
+                    onPress={() => this.changeBgColor(this.colors.green)}
                     ></TouchableOpacity>
                   </View>
                 <Button
@@ -85,7 +85,7 @@ colors = {
                 title="Start Chatting"
                 onPress={() => this.props.navigation.navigate('Chat', {
                 name: this.state.name, 
-                backgroundColor: this.state.newColor}
+                backgroundColor: this.state.backgroundColor}
                 )}
                 />
           </View>

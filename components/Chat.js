@@ -1,7 +1,7 @@
 import React from 'react';
 import { View,  Platform, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { GiftedChat, Bubble } from 'react-native-gifted-chat';
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //import database to store messages
 const firebase = require('firebase');
@@ -19,7 +19,7 @@ const firebaseConfig = {
 };
 
 // The application’s main <Chat/> component that renders the user's chat screen 
-export default class Chat extends Component {
+export default class Chat extends React.Component {
   constructor () {
     super();
       this.state ={
@@ -71,24 +71,23 @@ this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
 
   this.referenceMessagesUser = firebase.firestore().collection("messages").where("uid", '==', this.state.uid);            
   // saving messages while user is online
-  this.saveMessages();
+ 
   this.unsubscribe = this.referenceChatMessages.orderBy("createdAt", "desc")     
   });    
 }
 
 // temporarily stores messages
-async getMessages() {
-  let messages = '';
-  try {
-    messages = await AsyncStorage.getItem('messages') || [];
-    this.setState({
-      messages: JSON.parse(messages)
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
+// async getMessages() {
+//   let messages = '';
+//   try {
+//     messages = await AsyncStorage.getItem('messages') || [];
+//     this.setState({
+//       messages: JSON.parse(messages)
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 // end of render lifecycle
 componentWillUnmount() {
@@ -113,10 +112,9 @@ onSend(messages = []) {
     messages: GiftedChat.append(previousState.messages, messages),
   }),() => {
     this.addMessages();
-    this.getMessages();
+    // this.getMessages();
   });
 }
-
 
 onCollectionUpdate = (querySnapshot) => {
   const messages = [];
@@ -155,7 +153,7 @@ renderBubble(props) {
       {...props}
       wrapperStyle={{
         right: {
-          backgroundColor: '#ADD8E6'
+          backgroundColor: '#000'
         }
       }}
     />
@@ -165,11 +163,11 @@ renderBubble(props) {
 render() {
 
 //grabbing user's name and selected color
-let { newColor, name } = this.props.route.params;
+let { backgroundColor, name } = this.props.route.params;
 
 return (
  // Chat screen rendered for user 
-      <View  style={[{ backgroundColor: newColor }, styles.container]}>
+      <View  style={[{ backgroundColor: backgroundColor }, styles.container]}>
           <GiftedChat
           renderBubble={this.renderBubble.bind(this)}
           messages={this.state.messages}
