@@ -194,6 +194,7 @@ renderBubble(props) {
 //hides message bar when user is offline
 renderInputToolbar(props) {
   if (this.state.isConnected == false) {
+    <></>
   } else {
     return(
       <InputToolbar
