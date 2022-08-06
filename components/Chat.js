@@ -30,6 +30,7 @@ export default class Chat extends React.Component {
           _id: "",
           name: "",
         },
+        isConnected: false,
     }
 
     // Firestore app initialization
@@ -80,13 +81,14 @@ async deleteMessages() {
 // render lifecycle beginning
 componentDidMount() {
 
-NetInfo.fetch().then(connection => {
-  if (connection.isConnected) {
-    console.log('online');
-  } else {
-    console.log('offline');
-  }
-});
+  NetInfo.fetch().then(connection => {
+    if (connection.isConnected) {
+      this.setState({ isConnected: true });
+      console.log('online');
+    } else {
+      console.log('offline');
+    }} 
+  )
 
 this.getMessages();
 // function takes props from <Start/> and displays the user's name in navigation bar 
@@ -168,6 +170,7 @@ onCollectionUpdate = (querySnapshot) => {
 // user cannot send messages while offline
 renderInputToolbar(props) {
   if (this.state.isConnected == false) {
+    <></>
   } else {
     return(
       <InputToolbar
@@ -189,19 +192,6 @@ renderBubble(props) {
       }}
     />
   )
-}
-
-//hides message bar when user is offline
-renderInputToolbar(props) {
-  if (this.state.isConnected == false) {
-    <></>
-  } else {
-    return(
-      <InputToolbar
-      {...props}
-      />
-    );
-  }
 }
 
 render() {
