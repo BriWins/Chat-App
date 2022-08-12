@@ -117,11 +117,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   startBox: {
-    width: '100%',
+    width: '90%',
     backgroundColor: 'white',
     alignItems: 'center',
-    height: '32%',
+    height: '35%',
     justifyContent: 'space-evenly',
+    position: 'absolute',
+    bottom: 40,
   },
   title: {
     fontSize: 45,
