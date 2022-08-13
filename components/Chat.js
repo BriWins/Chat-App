@@ -54,78 +54,23 @@ export default class Chat extends React.Component {
     this.referenceMessagesUser= null;
   }
 
-
-
-// render lifecycle beginning
-componentDidMount() {
-
-  NetInfo.fetch().then(connection => {
-    if (connection.isConnected) {
-      this.setState({ isConnected: true });
-      console.log('online');
-    } else {
-      console.log('offline');
-    }} 
-  )
-
-this.getMessages();
-// function takes props from <Start/> and displays the user's name in navigation bar 
-let { name } = this.props.route.params;
-this.props.navigation.setOptions({ title: name });
-
-// function takes props from <Start/> and displays the user's chosen color as chat background color
-let { newColor } = this.props.route.params;
-this.props.navigation.setOptions({ backgroundColor: newColor });
-
-// loading messages to be stored in database collection
-this.referenceChatMessages = firebase.firestore().collection("messages");
-    
-// user authentication via Firebase
-this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
-  if (!user) {
-    firebase.auth().signInAnonymously();
-  }
-  this.setState({
-    uid: user.uid,
-    messages: [],
-    user: {
-      _id: user.uid,
-      name: name,
-  },
-});
-
-  this.referenceMessagesUser = firebase.firestore().collection("messages").where("uid", '==', this.state.uid);            
-  // saving messages while user is online
-  this.unsubscribe = this.referenceChatMessages.orderBy("createdAt", "desc")     
-  });    
-}
-
-// end of render lifecycle
-componentWillUnmount() {
-  this.authUnsubscribe();
-}
-
-// updates message state
-onSend(messages = []) {
-  this.setState((previousState) => ({
-    messages: GiftedChat.append(previousState.messages, messages),
-  }),() => {
-    this.addMessages();
-    this.saveMessages();
-  });
-}
-
- // Adds messages to cloud storage
- addMessages() {
-  const message = this.state.messages[0];
-  this.referenceChatMessages.add({
-    uid: this.state.uid,
-    _id: message._id,
-    text: message.text || "",
-    createdAt: message.createdAt,
-    user: message.user,
-  });
-}
+  onCollectionUpdate = (querySnapshot) => {
+    const messages = [];
+    querySnapshot.forEach((doc) => {
+      var data = doc.data();
+      messages.push({
+        _id: data._id,
+        text: data.text,
+        createdAt: data.createdAt.toDate(),
+        user: {
+          _id: data.user._id,
+        } 
+      });
+    });
+    this.setState({
+      messages: messages,
+    });
+  };
 
 //function retrieves previous messages
 async getMessages() {
@@ -161,24 +106,79 @@ async deleteMessages() {
   }
 }
 
+// render lifecycle beginning
+componentDidMount() {
 
-onCollectionUpdate = (querySnapshot) => {
-  const messages = [];
-  querySnapshot.forEach((doc) => {
-    var data = doc.data();
-    messages.push({
-      _id: data._id,
-      text: data.text,
-      createdAt: data.createdAt.toDate(),
-      user: {
-        _id: data.user._id,
-      } 
-    });
-  });
+//checking to see if user is online or offline
+NetInfo.fetch().then(connection => {
+  if (connection.isConnected) {
+    this.setState({ isConnected: true });
+    console.log('online');
+  } else {
+    console.log('offline');
+  }} 
+)
+
+this.getMessages();
+// function takes props from <Start/> and displays the user's name in navigation bar 
+let { name } = this.props.route.params;
+this.props.navigation.setOptions({ title: name });
+
+// function takes props from <Start/> and displays the user's chosen color as chat background color
+let { newColor } = this.props.route.params;
+this.props.navigation.setOptions({ backgroundColor: newColor });
+
+// loading messages to be stored in database collection
+this.referenceChatMessages = firebase.firestore().collection("messages");
+    
+// user authentication via Firebase
+this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
+  if (!user) {
+    firebase.auth().signInAnonymously();
+  }
   this.setState({
-    messages: messages,
+    uid: user.uid,
+    messages: [],
+    user: {
+      _id: user.uid,
+      name: name,
+  },
+});
+  this.referenceMessagesUser = firebase.firestore().collection("messages").where("uid", '==', this.state.uid);            
+  // saving messages while user is online
+  this.unsubscribe = this.referenceChatMessages.orderBy("createdAt", "desc")     
+  });    
+}
+
+// end of render lifecycle
+componentWillUnmount() {
+  if (this.isConnected) {
+    this.unsubscribe();
+    this.authUnsubscribe();
+  }
+}
+
+// updates message state
+onSend(messages = []) {
+  this.setState((previousState) => ({
+    messages: GiftedChat.append(previousState.messages, messages),
+  }),() => {
+    this.addMessages();
+    this.saveMessages();
   });
-};
+}
+
+ // Adds messages to cloud storage
+ addMessages() {
+  const message = this.state.messages[0];
+  this.referenceChatMessages.add({
+    uid: this.state.uid,
+    _id: message._id,
+    text: message.text || "",
+    createdAt: message.createdAt,
+    user: message.user,
+  });
+}
 
 // user cannot send messages while offline
 renderInputToolbar(props) {
@@ -207,10 +207,12 @@ renderBubble(props) {
   )
 }
 
+//renders the action button (+)
 renderCustomActions = (props) => {
   return <CustomActions {...props} />;
 };
 
+//render map for shared location within chat
 renderCustomView (props) {
   const { currentMessage } = props;
   if (currentMessage.location) {
