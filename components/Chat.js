@@ -243,7 +243,7 @@ return (
  // Chat screen rendered for user 
       <View  style={[{ backgroundColor: backgroundColor }, styles.container]}>
           <GiftedChat
-          renderActions={this.renderCustomActions}
+          renderActions={this.renderCustomActions.bind(this)}
           renderBubble={this.renderBubble.bind(this)}
           renderInputToolbar={this.renderInputToolbar.bind(this)}
           messages={this.state.messages}

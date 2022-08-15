@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { connectActionSheet } from '@expo/react-native-action-sheet';
+import { ActionSheetIOS, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
@@ -9,8 +8,8 @@ import * as Location from "expo-location";
 import firebase from 'firebase';
 import 'firebase/firestore';
 
-class CustomActions extends React.Component {
-
+export default class CustomActions extends React.Component {
+  
 // user can upload image onto chat
 imageUpload = async (uri) => {
     const blob = await new Promise((resolve, reject) => {
@@ -88,7 +87,6 @@ getLocation = async () => {
     if (status === 'granted') {
       let result = await Location.getCurrentPositionAsync({}).catch(error => console.log(error));
 
-
       if (result) {
         console.log(result);
         this.props.onSend({
@@ -104,31 +102,39 @@ getLocation = async () => {
   }
 }
 
-
-// user options for uploading images
+  
+ //Action Sheet with options
 onActionPress = () => {
-    const options = ['Choose From Library', 'Take Picture', 'Send Location', 'Cancel'];
-    const cancelButtonIndex = options.length - 1;
-    this.context.actionSheet().showActionSheetWithOptions(
-        {
-        options,
-        cancelButtonIndex,
-        },
-        async (buttonIndex) => {
-        switch (buttonIndex) {
-            case 0:
-            console.log('user wants to pick an image');
-            return;
-            case 1:
-            console.log('user wants to take a photo');
-            return;
-            case 2:
-            console.log('user wants to get their location');
-            default:
+  const options = [
+    'Choose from Library',
+    'Take Photo',
+    'Send Location',
+    'Cancel'
+  ];
+  const cancelButtonIndex = options.length - 1;
+  
+  ActionSheetIOS.showActionSheetWithOptions(
+    {
+      options,
+      cancelButtonIndex,
+    },
+    async (buttonIndex) => {r
+      switch (buttonIndex) {
+        case 0:
+          console.log('User wants to pick an image');
+          return this.imagePicker();
+        case 1:
+          console.log('User wants to take a photo');
+          return this.takePhoto();
+        case 2:
+          console.log('User wants to get their location');
+          return this.getLocation();
+        default:
       }
     },
   );
 };
+
    
 render() {
     return (
@@ -140,7 +146,6 @@ render() {
     );
     }
 }
-
 
 // Dedicated style props for each styling component
 const styles = StyleSheet.create({
@@ -165,11 +170,9 @@ const styles = StyleSheet.create({
     },
    });
 
-  CustomAction.contextTypes = {
-  actionSheet: PropTypes.func,
-  };
+   CustomActions.contextTypes = {
+    showActionSheetWithOptions: PropTypes.func,
+    };
   
-  const CustomActions = connectActionSheet(CustomAction);
-  
-  export default CustomActions;
+
   
