@@ -31,7 +31,9 @@ colors = {
     return (
       <View style={styles.container}>
           <ImageBackground source={BackgroundImage} resizeMode="cover" style={styles.image}>
-            <Text style={styles.title}>Chat App</Text>
+              <View>
+                <Text style={styles.title}>Chat App</Text>
+              </View>
               <View style={styles.startBox}>
                 <View style={styles.nameBox}>
                   <TextInput
@@ -129,6 +131,7 @@ const styles = StyleSheet.create({
     fontSize: 45,
     fontWeight: "600",
     color: "#FFFFFF",
+    alignItems: 'flex-start',
   },
   textInput: {
     fontSize: 16,

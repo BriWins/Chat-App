@@ -36,11 +36,8 @@ export default class Chat extends React.Component {
             name: 'React Native',
             avatar: 'https://placeimg.com/140/140/any',
           },
-          location: {
-            latitude: 48.864601,
-            longitude: 2.398704,
-          },
         },
+        image: null,
         isConnected: false,
     }
 
@@ -60,11 +57,15 @@ export default class Chat extends React.Component {
       var data = doc.data();
       messages.push({
         _id: data._id,
-        text: data.text,
+        text: data.text || '',
         createdAt: data.createdAt.toDate(),
         user: {
           _id: data.user._id,
-        } 
+          name: data.user.name,
+          avatar: data.user.avatar || '',
+        },
+        image: data.image || null,
+        location: data.location || null,
       });
     });
     this.setState({
@@ -246,12 +247,10 @@ return (
           renderActions={this.renderCustomActions.bind(this)}
           renderBubble={this.renderBubble.bind(this)}
           renderInputToolbar={this.renderInputToolbar.bind(this)}
+          renderCustomView={this.renderCustomView}
           messages={this.state.messages}
           onSend={ (messages) => this.onSend(messages)}
-          user={{
-            _id: 1,
-            name: name,
-          }}
+          user={{ _id: this.state.user._id, name: this.state.user.name }}
           />
           {/* Makes sure older mobile version keyboard don't block messages upon render*/}
   { Platform.OS === 'android' ? (<KeyboardAvoidingView behavior="height" />) : null }
