@@ -1,18 +1,20 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { ActionSheetIOS, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
+import { useActionSheet }  from '@expo/react-native-action-sheet';
 
 import firebase from 'firebase';
 import 'firebase/firestore';
 
-export default class CustomActions extends React.Component {
+class CustomActions extends React.Component {
   
 // user can upload image onto chat
 imageUpload = async (uri) => {
     const blob = await new Promise((resolve, reject) => {
+      const {showActionSheetWithOptions} = useActionSheet();
       const xhr = new XMLHttpRequest();
       xhr.onload = function () {
         resolve(xhr.response);
@@ -48,8 +50,8 @@ imagePicker = async () => {
       }).catch(error => console.log(error));
 
       if (!result.cancelled) {
-        const imageUrl = await this.imageUpload(result.uri);
-        this.props.onSend({ image: imageUrl });
+        const imageUrl = await imageUpload(result.uri);
+        props.onSend({ image: imageUrl });
       }
     }
   } catch (error) {
@@ -69,8 +71,8 @@ takePhoto = async () => {
 
       if (!result.cancelled) {
           
-        const imageUrl = await this.imageUpload(result.uri);
-        this.props.onSend({ image: imageUrl });
+        const imageUrl = await imageUpload(result.uri);
+        props.onSend({ image: imageUrl });
         
       }
     }
@@ -89,7 +91,7 @@ getLocation = async () => {
 
       if (result) {
         console.log(result);
-        this.props.onSend({
+        props.onSend({
           location: {
             longitude: result.coords.longitude,
             latitude: result.coords.latitude,
@@ -113,7 +115,7 @@ onActionPress = () => {
   ];
   const cancelButtonIndex = options.length - 1;
   
-  ActionSheetIOS.showActionSheetWithOptions(
+  showActionSheetWithOptions(
     {
       options,
       cancelButtonIndex,
@@ -122,13 +124,13 @@ onActionPress = () => {
       switch (buttonIndex) {
         case 0:
           console.log('User wants to pick an image');
-          return this.imagePicker();
+          return imagePicker();
         case 1:
           console.log('User wants to take a photo');
-          return this.takePhoto();
+          return takePhoto();
         case 2:
           console.log('User wants to get their location');
-          return this.getLocation();
+          return getLocation();
         default:
       }
     },
@@ -138,9 +140,9 @@ onActionPress = () => {
    
 render() {
     return (
-        <TouchableOpacity style={[styles.container]} onPress={this.onActionPress}>
-        <View style={[styles.wrapper, this.props.wrapperStyle]}>
-            <Text style={[styles.iconText, this.props.iconTextStyle]}>+</Text>
+        <TouchableOpacity style={[styles.container]} onPress={onActionPress}>
+        <View style={[styles.wrapper, props.wrapperStyle]}>
+            <Text style={[styles.iconText, props.iconTextStyle]}>+</Text>
         </View>
         </TouchableOpacity>
     );
@@ -171,8 +173,9 @@ const styles = StyleSheet.create({
    });
 
    CustomActions.contextTypes = {
-    showActionSheetWithOptions: PropTypes.func,
+    actionSheet: PropTypes.func,
     };
   
+export default CustomActions;
 
   
