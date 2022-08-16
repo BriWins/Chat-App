@@ -29,3 +29,25 @@ The **Chat App** is built for mobile devices using React Native. The app provide
 - Gifted Chat library
 
 
+### Getting Started
+
+***Step 1.***
+
+Choose an integrated development environment (IDE) of your choice to create your project. Below are a few options that support React Native...
+
+1. [Microsoft Visual Studio](https://visualstudio.microsoft.com/)
+
+2. [Atom](https://atom.io/)
+
+3. [Sublime Text](https://www.sublimetext.com/)
+
+4. [Nuclide](https://nuclide.io/)
+
+
+***Step 2.***
+
+Chat App is developed using Expo. If you don't have an Expo account, please create one [here](https://expo.dev/)!
+
+1. Install Expo 
+
+        npm install expo-cli --global
