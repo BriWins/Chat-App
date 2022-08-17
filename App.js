@@ -6,7 +6,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet } from 'react-native';
 
-
 // Creates the navigator to switch between screens 
 const Stack = createStackNavigator();
 

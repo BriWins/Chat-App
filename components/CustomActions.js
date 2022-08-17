@@ -36,7 +36,7 @@ class CustomAction extends React.Component {
     return await snapshot.ref.getDownloadURL();
   };
 
- 
+  //User can select an image to upload to chat view
   pickImage = async () => {
     // Ask for permission
     const { status } = await ImagePicker.getMediaLibraryPermissionsAsync();
@@ -63,8 +63,8 @@ class CustomAction extends React.Component {
     }
   };
 
+  // User can take a photo 
   takePhoto = async () => {
-    
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
     try {
       if (status === 'granted') {
@@ -86,8 +86,8 @@ class CustomAction extends React.Component {
     }
   };
 
+  // User can share their location within chat
   getLocation = async () => {
-    
     const { status } = await Location.requestForegroundPermissionsAsync();
     try {
       if (status === 'granted') {
@@ -108,7 +108,7 @@ class CustomAction extends React.Component {
     }
   };
 
-  // Actionsheet
+  // function renders the (+) button for media options
   onActionPress = () => {
     // Same interface as https://facebook.github.io/react-native/docs/actionsheetios.html
     const options = [
@@ -145,7 +145,7 @@ class CustomAction extends React.Component {
       <>
         <TouchableOpacity
           accessible={true}
-          accessibilityLabel="More options"
+          accessibilityLabel="Additional media options"
           accessibilityHint="Let's you choose to send an image or your geolocation"
           accessibilityRole="button"
           style={[styles.container]}
@@ -160,6 +160,7 @@ class CustomAction extends React.Component {
   }
 }
 
+// Dedicated style props for each styling component 
 const styles = StyleSheet.create({
   container: {
     width: 26,
