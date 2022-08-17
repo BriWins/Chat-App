@@ -52,7 +52,7 @@ Chat App is developed using Expo. If you don't have an Expo account, please crea
 
         npm install expo-cli --global
         
-        ![image](https://user-images.githubusercontent.com/95152254/185162036-2fc904be-bf13-4d12-b6e2-e26ecfc56037.png)
+![image](https://user-images.githubusercontent.com/95152254/185162036-2fc904be-bf13-4d12-b6e2-e26ecfc56037.png)
 
 ***Step 3.***
 
@@ -67,3 +67,6 @@ Clone Chat App repository
 ***Step 5.***
 
 Set up [Google Firebase](https://firebase.google.com/) Database
+
+![image](https://user-images.githubusercontent.com/95152254/185170136-e9026f91-1f5a-47be-9726-1b6da1786381.png)
+
