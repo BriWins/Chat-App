@@ -51,3 +51,19 @@ Chat App is developed using Expo. If you don't have an Expo account, please crea
 1. Install Expo 
 
         npm install expo-cli --global
+        
+        ![image](https://user-images.githubusercontent.com/95152254/185162036-2fc904be-bf13-4d12-b6e2-e26ecfc56037.png)
+
+***Step 3.***
+
+Set up a [Android](https://developer.android.com/studio) or [MAC](https://developer.apple.com/xcode/) device simulator
+
+***Step 4.***
+
+Clone Chat App repository
+
+    git clone https://github.com/BriWins/Chat-App.git
+    
+***Step 5.***
+
+Set up [Google Firebase](https://firebase.google.com/) Database
