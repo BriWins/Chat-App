@@ -21,12 +21,12 @@ The **Chat App** is built for mobile devices using React Native. The app provide
 
 ## Technologies
 
-- React Native 
+- [React Native](https://reactnative.dev/) 
 - Expo 
 - Google Firestore Database
   - Firebase authentication
   - Firebase Cloud Storage
-- Gifted Chat library
+- [Gifted Chat](https://github.com/FaridSafi/react-native-gifted-chat)
 
 
 ### Getting Started
